@@ -1,0 +1,1003 @@
+"Asm.fif" include
+// automatically generated from `contracts/cocoon_root.fc` incl:`contracts/imports/stdlib.fc` incl:`contracts/utils.fc` incl:`contracts/opcodes.fc` 
+PROGRAM{
+  DECLPROC ~load_bool
+  DECLPROC store_bool
+  DECLPROC store_address_none
+  DECLPROC is_address_none
+  DECLPROC store_msg_flags_and_address_none
+  DECLPROC ~load_msg_flags
+  DECLPROC is_bounced
+  DECLPROC ~skip_bounced_prefix
+  DECLPROC store_statinit_ref_and_body_ref
+  DECLPROC store_only_body_ref
+  DECLPROC store_prefix_only_body
+  DECLPROC ~retrieve_fwd_fee
+  DECLPROC ~load_op
+  DECLPROC ~skip_op
+  DECLPROC store_op
+  DECLPROC ~load_query_id
+  DECLPROC ~skip_query_id
+  DECLPROC store_query_id
+  DECLPROC ~load_op_and_query_id
+  DECLPROC ~set_token_snake_metadata_entry
+  DECLPROC create_token_onchain_metadata
+  DECLPROC create_msg
+  DECLPROC create_msg_ref
+  DECLPROC forward_excesses
+  DECLPROC calculate_contract_address
+  DECLPROC my_balance
+  DECLPROC signed_message_unpack_and_check_signature
+  DECLPROC pack_cocoon_params
+  DECLPROC unpack_cocoon_params
+  DECLPROC repack_cocoon_params_without_code
+  DECLPROC pack_cocoon_root_data
+  DECLPROC unpack_cocoon_root_data
+  DECLPROC pack_cocoon_proxy_data
+  DECLPROC unpack_cocoon_proxy_data
+  DECLPROC pack_cocoon_worker_data
+  DECLPROC unpack_cocoon_worker_data
+  DECLPROC calculate_cocoon_worker_state_init
+  DECLPROC calculate_cocoon_worker_address
+  DECLPROC pack_cocoon_client_data
+  DECLPROC unpack_cocoon_client_data
+  DECLPROC calculate_cocoon_client_state_init
+  DECLPROC calculate_cocoon_client_address
+  DECLPROC load_data
+  DECLPROC save_data
+  DECLPROC recv_internal
+  96613 DECLMETHOD get_cocoon_data
+  129381 DECLMETHOD proxy_hash_is_valid
+  95753 DECLMETHOD worker_hash_is_valid
+  72587 DECLMETHOD model_hash_is_valid
+  65647 DECLMETHOD last_proxy_seqno
+  89457 DECLMETHOD get_cur_params
+  ~load_bool PROCINLINE:<{
+    1 LDI
+    SWAP
+  }>
+  store_bool PROCINLINE:<{
+    SWAP
+    1 STI
+  }>
+  store_address_none PROCINLINE:<{
+    0 PUSHINT
+    SWAP
+    2 STU
+  }>
+  is_address_none PROCINLINE:<{
+    2 PLDU
+    0 EQINT
+  }>
+  store_msg_flags_and_address_none PROCINLINE:<{
+    SWAP
+    6 STU
+  }>
+  ~load_msg_flags PROCINLINE:<{
+    4 LDU
+    SWAP
+  }>
+  is_bounced PROCINLINE:<{
+    1 PUSHINT
+    AND
+    1 EQINT
+  }>
+  ~skip_bounced_prefix PROCINLINE:<{
+    32 PUSHINT
+    SDSKIPFIRST
+  }>
+  store_statinit_ref_and_body_ref PROCINLINE:<{
+    7 PUSHINT
+    s0 s3 XCHG2
+    108 STU
+    STREF
+    STREF
+  }>
+  store_only_body_ref PROCINLINE:<{
+    1 PUSHINT
+    ROT
+    107 STU
+    STREF
+  }>
+  store_prefix_only_body PROCINLINE:<{
+    0 PUSHINT
+    SWAP
+    107 STU
+  }>
+  ~retrieve_fwd_fee PROCINLINE:<{
+    LDMSGADDR
+    NIP
+    LDVARUINT16
+    NIP
+    SKIPDICT
+    LDVARUINT16
+    NIP
+    LDVARUINT16
+    SWAP
+  }>
+  ~load_op PROCINLINE:<{
+    32 LDU
+    SWAP
+  }>
+  ~skip_op PROCINLINE:<{
+    32 PUSHINT
+    SDSKIPFIRST
+  }>
+  store_op PROCINLINE:<{
+    SWAP
+    32 STU
+  }>
+  ~load_query_id PROCINLINE:<{
+    64 LDU
+    SWAP
+  }>
+  ~skip_query_id PROCINLINE:<{
+    64 PUSHINT
+    SDSKIPFIRST
+  }>
+  store_query_id PROCINLINE:<{
+    SWAP
+    64 STU
+  }>
+  ~load_op_and_query_id PROCINLINE:<{
+    ~load_op INLINECALLDICT
+    SWAP
+    ~load_query_id INLINECALLDICT
+    s1 s2 XCHG
+  }>
+  ~set_token_snake_metadata_entry PROC:<{
+    0 PUSHINT
+    NEWC
+    8 STU
+    SWAP
+    STSLICER
+    ENDC
+    s0 s2 XCHG
+    8 PUSHPOW2
+    DICTUSETREF
+  }>
+  create_token_onchain_metadata PROCINLINE:<{
+    0 PUSHINT
+    NEWC
+    8 STU
+    STDICT
+    ENDC
+  }>
+  create_msg PROCINLINE:<{
+    0 PUSHINT
+    s0 s3 XCHG
+    NEWC
+    6 STU
+    ROT
+    STSLICER
+    SWAP
+    STVARUINT16
+    107 STU
+  }>
+  create_msg_ref PROCINLINE:<{
+    1 PUSHINT
+    0 PUSHINT
+    s0 s4 XCHG
+    NEWC
+    6 STU
+    s0 s3 XCHG2
+    STSLICER
+    SWAP
+    STVARUINT16
+    s1 s2 XCHG
+    106 STU
+    1 STU
+  }>
+  forward_excesses PROC:<{
+    627413836 PUSHINT
+    16 PUSHINT
+    s0 s3 XCHG2
+    0 PUSHINT
+    create_msg INLINECALLDICT
+    s1 s2 XCHG
+    32 STU
+    64 STU
+    ENDC
+    7 PUSHPOW2
+    SENDRAWMSG
+  }>
+  calculate_contract_address PROCINLINE:<{
+    HASHCU
+    0 PUSHINT
+    4 PUSHINT
+    NEWC
+    3 STU
+    8 STI
+    256 STU
+    ENDC
+    CTOS
+  }>
+  my_balance PROCINLINE:<{
+    BALANCE
+    UNPAIR
+    DROP
+  }>
+  signed_message_unpack_and_check_signature PROC:<{
+    s0 s3 XCHG
+    LDMSGADDR
+    9 PUSHPOW2
+    LDSLICEX
+    LDREF
+    SWAP
+    CTOS
+    SWAP
+    ENDS
+    DUP
+    HASHSU
+    s0 s0 s6 XCHG3
+    CHKSIGNU
+    1007 THROWIFNOT
+    s0 s3 XCHG
+    32 LDU
+    64 LDU
+    s2 s4 XCHG2
+    EQUAL
+    1005 THROWIFNOT
+    SWAP
+    EQUAL
+    1005 THROWIFNOT
+    SWAP
+    PAIR
+  }>
+  pack_cocoon_params PROC:<{
+    3 PUSHINT
+    NEWC
+    8 STU
+    s1 16 s() XCHG
+    32 STU
+    s1 s14 XCHG
+    32 STU
+    s1 s12 XCHG
+    1 STU
+    s0 s10 XCHG2
+    STVARUINT16
+    s0 s8 XCHG2
+    STVARUINT16
+    s1 s6 XCHG
+    32 STU
+    s1 s4 XCHG
+    32 STU
+    s1 s2 XCHG
+    32 STU
+    32 STU
+    32 STU
+    32 STU
+    SWAP
+    STVARUINT16
+    SWAP
+    STVARUINT16
+    STOPTREF
+    STOPTREF
+    STOPTREF
+    ENDC
+  }>
+  unpack_cocoon_params PROC:<{
+    CTOS
+    8 LDU
+    SWAP
+    3 EQINT
+    1008 THROWIFNOT
+    32 LDU
+    32 LDU
+    1 LDU
+    LDVARUINT16
+    LDVARUINT16
+    32 LDU
+    32 LDU
+    32 LDU
+    32 LDU
+    32 LDU
+    32 LDU
+    LDVARUINT16
+    LDVARUINT16
+    LDOPTREF
+    LDOPTREF
+    LDOPTREF
+    DROP
+  }>
+  repack_cocoon_params_without_code PROC:<{
+    unpack_cocoon_params CALLDICT
+    3 BLKDROP
+    PUSHNULL
+    PUSHNULL
+    PUSHNULL
+    pack_cocoon_params CALLDICT
+  }>
+  pack_cocoon_root_data PROCINLINE:<{
+    s0 s6 XCHG
+    NEWC
+    STDICT
+    s1 s5 XCHG
+    STDICT
+    s1 s3 XCHG
+    32 STU
+    STDICT
+    STDICT
+    ENDC
+    NEWC
+    s0 s4 XCHG2
+    STSLICER
+    32 STU
+    s1 s2 XCHG
+    STREF
+    STREF
+    ENDC
+  }>
+  unpack_cocoon_root_data PROC:<{
+    LDREF
+    SWAP
+    CTOS
+    SWAP
+    LDMSGADDR
+    s0 s2 XCHG
+    LDDICT
+    LDDICT
+    32 LDU
+    LDDICT
+    LDDICT
+    DROP
+    s0 s6 XCHG
+    32 LDU
+    LDREF
+    DROP
+    s6 s7 XCHG
+    s5 s6 XCHG
+    s4 s5 XCHG
+    s3 s4 XCHG
+    s2 s3 XCHG
+  }>
+  pack_cocoon_proxy_data PROCINLINE:<{
+    NEWC
+    s0 s8 XCHG2
+    STSLICER
+    s1 s6 XCHG
+    256 STU
+    s0 s4 XCHG2
+    STSLICER
+    s1 s2 XCHG
+    2 STU
+    SWAP
+    STVARUINT16
+    SWAP
+    STVARUINT16
+    32 STU
+    STREF
+    ENDC
+  }>
+  unpack_cocoon_proxy_data PROCINLINE:<{
+    LDMSGADDR
+    256 LDU
+    LDMSGADDR
+    2 LDU
+    LDVARUINT16
+    LDVARUINT16
+    32 LDU
+    LDREF
+    DROP
+  }>
+  pack_cocoon_worker_data PROCINLINE:<{
+    NEWC
+    s0 s6 XCHG2
+    STSLICER
+    s0 s4 XCHG2
+    STSLICER
+    s1 s2 XCHG
+    256 STU
+    2 STU
+    64 STU
+    STREF
+    ENDC
+  }>
+  unpack_cocoon_worker_data PROCINLINE:<{
+    LDMSGADDR
+    LDMSGADDR
+    256 LDU
+    2 LDU
+    64 LDU
+    LDREF
+    DROP
+  }>
+  calculate_cocoon_worker_state_init PROCINLINE:<{
+    0 PUSHINT
+    s0 s0 PUSH2
+    s5 s7 XCHG
+    5 3 REVERSE
+    s1 s0 s6 XCHG3
+    pack_cocoon_worker_data INLINECALLDICT
+    OVER
+    NEWC
+    2 STU
+    s1 s3 XCHG
+    STDICT
+    s1 s2 XCHG
+    STDICT
+    1 STU
+    ENDC
+  }>
+  calculate_cocoon_worker_address PROCINLINE:<{
+    calculate_cocoon_worker_state_init INLINECALLDICT
+    calculate_contract_address INLINECALLDICT
+  }>
+  pack_cocoon_client_data PROC:<{
+    NEWC
+    s0 s10 XCHG2
+    STSLICER
+    s0 s8 XCHG2
+    STSLICER
+    s1 s6 XCHG
+    256 STU
+    ENDC
+    s0 s4 XCHG
+    NEWC
+    2 STU
+    s0 s3 XCHG2
+    STVARUINT16
+    SWAP
+    STVARUINT16
+    64 STU
+    s1 s2 XCHG
+    32 STU
+    s1 s2 XCHG
+    256 STU
+    STREF
+    STREF
+    ENDC
+  }>
+  unpack_cocoon_client_data PROCINLINE:<{
+    LDREF
+    SWAP
+    CTOS
+    LDMSGADDR
+    LDMSGADDR
+    256 LDU
+    DROP
+    s0 s3 XCHG
+    2 LDU
+    LDVARUINT16
+    LDVARUINT16
+    64 LDU
+    32 LDU
+    256 LDU
+    LDREF
+    DROP
+    s8 s9 XCHG
+    s7 s8 XCHG
+  }>
+  calculate_cocoon_client_state_init PROCINLINE:<{
+    0 PUSHINT
+    s0 s0 s0 PUSH3
+    s0 s0 PUSH2
+    s9 s11 XCHG
+    5 7 REVERSE
+    s4 s6 XCHG
+    s3 s5 XCHG
+    s4 s10 XCHG
+    3 ROLL
+    s0 s11 XCHG
+    pack_cocoon_client_data CALLDICT
+    s2 PUSH
+    NEWC
+    2 STU
+    s1 s2 XCHG
+    STDICT
+    STDICT
+    1 STU
+    ENDC
+  }>
+  calculate_cocoon_client_address PROCINLINE:<{
+    calculate_cocoon_client_state_init INLINECALLDICT
+    calculate_contract_address INLINECALLDICT
+  }>
+  load_data PROCINLINE:<{
+    c4 PUSH
+    CTOS
+    unpack_cocoon_root_data CALLDICT
+  }>
+  save_data PROCINLINE:<{
+    pack_cocoon_root_data INLINECALLDICT
+    c4 POP
+  }>
+  recv_internal PROC:<{
+    c2 SAVE
+    SAMEALTSAVE
+    DUP
+    SEMPTY
+    IFJMP:<{
+      4 BLKDROP
+    }>
+    2SWAP
+    SUB
+    DUEPAYMENT
+    ADD
+    10000000 PUSHINT
+    MAX
+    0 PUSHINT
+    RAWRESERVE
+    SWAP
+    CTOS
+    4 LDU
+    SWAP
+    1 PUSHINT
+    AND
+    IFJMP:<{
+      2DROP
+    }>
+    LDMSGADDR
+    DROP
+    SWAP
+    32 LDU
+    OVER
+    2584889280 PUSHINT
+    EQUAL
+    IFJMP:<{
+      3 BLKDROP
+    }>
+    64 LDU
+    load_data INLINECALLDICT
+    s11 s7 PUSH2
+    SDEQ
+    1010 THROWIFNOT
+    s10 PUSH
+    3813350496 PUSHINT
+    EQUAL
+    IF:<{
+      s10 POP
+      s0 s7 XCHG
+      256 LDU
+      ENDS
+      x{} PUSHSLICE
+      s0 s1 s3 XCHG3
+      8 PUSHPOW2
+      DICTUSET
+      s0 s6 XCHG
+      INC
+    }>ELSE<{
+      s10 PUSH
+      2375329690 PUSHINT
+      EQUAL
+      IF:<{
+        s10 POP
+        s0 s7 XCHG
+        256 LDU
+        ENDS
+        ROT
+        8 PUSHPOW2
+        DICTUDEL
+        DROP
+        s0 s6 XCHG
+        INC
+      }>ELSE<{
+        s10 PUSH
+        3242595149 PUSHINT
+        EQUAL
+        IF:<{
+          s10 POP
+          s0 s7 XCHG
+          256 LDU
+          ENDS
+          x{} PUSHSLICE
+          s0 s2 XCHG
+          8 PUSHPOW2
+          DICTUSET
+          s0 s6 XCHG
+          INC
+        }>ELSE<{
+          s10 PUSH
+          2461080600 PUSHINT
+          EQUAL
+          IF:<{
+            s10 POP
+            s0 s7 XCHG
+            256 LDU
+            ENDS
+            SWAP
+            8 PUSHPOW2
+            DICTUDEL
+            DROP
+            s0 s6 XCHG
+            INC
+          }>ELSE<{
+            s10 PUSH
+            1904610944 PUSHINT
+            EQUAL
+            IF:<{
+              s10 POP
+              s0 s7 XCHG
+              256 LDU
+              ENDS
+              x{} PUSHSLICE
+              s0 s1 s6 XCHG3
+              8 PUSHPOW2
+              DICTUSET
+              s0 s6 XCHG
+              INC
+            }>ELSE<{
+              s10 PUSH
+              1010946226 PUSHINT
+              EQUAL
+              IF:<{
+                s10 POP
+                s0 s7 XCHG
+                256 LDU
+                ENDS
+                s0 s5 XCHG2
+                8 PUSHPOW2
+                DICTUDEL
+                DROP
+                s0 s6 XCHG
+                INC
+              }>ELSE<{
+                s10 PUSH
+                2457631925 PUSHINT
+                EQUAL
+                IF:<{
+                  s10 POP
+                  s7 PUSH
+                  1 LDU
+                  SWAP
+                  0 EQINT
+                  1004 THROWIFNOT
+                  7 LDU
+                  SWAP
+                  3 LSHIFT#
+                  SDSKIPFIRST
+                  ENDS
+                  s0 s3 XCHG
+                  INC
+                  s7 s0 s4 XCPUXC
+                  32 PUSHINT
+                  DICTUSET
+                  s0 s2 XCHG
+                  INC
+                }>ELSE<{
+                  s10 PUSH
+                  1833560818 PUSHINT
+                  EQUAL
+                  IF:<{
+                    s10 POP
+                    s0 s7 XCHG
+                    32 LDU
+                    ENDS
+                    s0 s4 XCHG2
+                    32 PUSHINT
+                    DICTUDEL
+                    DROP
+                    s0 s6 XCHG
+                    INC
+                  }>ELSE<{
+                    s10 PUSH
+                    2625184954 PUSHINT
+                    EQUAL
+                    IF:<{
+                      s10 POP
+                      s0 s7 XCHG
+                      32 LDU
+                      DUP
+                      1 LDU
+                      SWAP
+                      0 EQINT
+                      1004 THROWIFNOT
+                      7 LDU
+                      SWAP
+                      3 LSHIFT#
+                      SDSKIPFIRST
+                      ENDS
+                      s1 s5 PUSH2
+                      32 PUSHINT
+                      DICTUGET
+                      NULLSWAPIFNOT
+                      NIP
+                      0 EQINT
+                      2000 THROWIF
+                      NEWC
+                      SWAP
+                      STSLICER
+                      ENDC
+                      CTOS
+                      s0 s1 s5 XCHG3
+                      32 PUSHINT
+                      DICTUSET
+                      s0 s6 XCHG
+                      INC
+                    }>ELSE<{
+                      s10 PUSH
+                      3308181716 PUSHINT
+                      EQUAL
+                      IF:<{
+                        s10 POP
+                        s0 s9 XCHG
+                        unpack_cocoon_params CALLDICT
+                        s11 POP
+                        s11 POP
+                        s0 20 s() XCHG
+                        LDVARUINT16
+                        LDVARUINT16
+                        ENDS
+                        s0 23 s() XCHG
+                        INC
+                        s0 s14 XCHG
+                        INC
+                        s0 s15 XCHG
+                        s13 s14 XCHG
+                        s1 s12 XCHG
+                        s1 s13 XCHG
+                        s11 23 s() XCHG
+                        s9 s10 XCHG
+                        s8 s9 XCHG
+                        s7 s8 XCHG
+                        s6 s7 XCHG
+                        s5 s6 XCHG
+                        s4 s5 XCHG
+                        s3 s4 XCHG
+                        s2 s3 XCHG
+                        s2 21 s() XCHG
+                        s1 23 s() XCHG
+                        s0 21 s() XCHG
+                        pack_cocoon_params CALLDICT
+                      }>ELSE<{
+                        s10 PUSH
+                        36675977 PUSHINT
+                        EQUAL
+                        IF:<{
+                          s10 POP
+                          s0 s9 XCHG
+                          unpack_cocoon_params CALLDICT
+                          3 3 BLKDROP2
+                          s3 POP
+                          s7 POP
+                          s7 POP
+                          s0 16 s() XCHG
+                          LDVARUINT16
+                          LDVARUINT16
+                          32 LDU
+                          32 LDU
+                          LDVARUINT16
+                          LDVARUINT16
+                          ENDS
+                          s0 23 s() XCHG
+                          INC
+                          s0 s14 XCHG
+                          INC
+                          s0 s15 XCHG
+                          s13 s14 XCHG
+                          s12 s13 XCHG
+                          s5 s12 XCHG
+                          s4 s11 XCHG
+                          s9 s10 XCHG
+                          s8 s9 XCHG
+                          s7 s8 XCHG
+                          s6 s7 XCHG
+                          s3 s6 XCHG
+                          s5 s4 s0 XCHG3
+                          s3 23 s() XCHG
+                          s1 s2 XCHG
+                          s1 23 s() XCHG
+                          s0 21 s() XCHG
+                          pack_cocoon_params CALLDICT
+                        }>ELSE<{
+                          s10 PUSH
+                          2721517409 PUSHINT
+                          EQUAL
+                          IF:<{
+                            s10 POP
+                            s0 s9 XCHG
+                            unpack_cocoon_params CALLDICT
+                            3 BLKDROP
+                            s0 19 s() XCHG
+                            LDREF
+                            LDREF
+                            LDREF
+                            ENDS
+                            s0 23 s() XCHG
+                            INC
+                            s0 s14 XCHG
+                            INC
+                            s0 s15 XCHG
+                            s13 s14 XCHG
+                            s12 s13 XCHG
+                            s11 s12 XCHG
+                            s10 s11 XCHG
+                            s9 s10 XCHG
+                            s8 s9 XCHG
+                            s7 s8 XCHG
+                            s6 s7 XCHG
+                            s5 s6 XCHG
+                            s4 s5 XCHG
+                            s3 s4 XCHG
+                            s3 21 s() XCHG
+                            s0 23 s() XCHG
+                            pack_cocoon_params CALLDICT
+                          }>ELSE<{
+                            s10 PUSH
+                            296680785 PUSHINT
+                            EQUAL
+                            IF:<{
+                              s10 POP
+                              s0 s7 XCHG
+                              LDREF
+                              ENDS
+                              SETCODE
+                            }>ELSE<{
+                              s10 PUSH
+                              1446780310 PUSHINT
+                              EQUAL
+                              IF:<{
+                                s5 POP
+                                s5 POP
+                                2DROP
+                                s6 POP
+                                s0 s3 XCHG
+                                ENDS
+                                PUSHNULL
+                                PUSHNULL
+                                PUSHNULL
+                                PUSHNULL
+                                s0 s4 XCHG
+                                INC
+                              }>ELSE<{
+                                s10 PUSH
+                                1333548937 PUSHINT
+                                EQUAL
+                                IFJMP:<{
+                                  8 BLKDROP
+                                  1 2 BLKDROP2
+                                  LDREF
+                                  LDREF
+                                  ENDS
+                                  SWAP
+                                  c4 POP
+                                  SETCODE
+                                  forward_excesses CALLDICT
+                                  RETALT
+                                }>
+                                s0 s10 XCHG
+                                3298930260 PUSHINT
+                                EQUAL
+                                IF:<{
+                                  s6 POP
+                                  s0 s6 XCHG
+                                  LDMSGADDR
+                                  ENDS
+                                  s0 s5 XCHG
+                                  INC
+                                }>ELSE<{
+                                  s7 POP
+                                  1012 THROW
+                                  s0 s6 XCHG
+                                }>
+                                s2 s8 XCHG
+                                s2 s6 XCHG
+                                s3 s4 XCHG
+                                s1 s2 XCHG
+                              }>
+                              s0 s6 XCHG
+                              s0 s8 XCHG
+                              s3 s4 XCHG
+                              -ROT
+                            }>
+                            s0 s8 XCHG
+                          }>
+                          s6 s8 XCHG
+                        }>
+                      }>
+                      s0 s8 XCHG
+                      s3 s6 XCHG
+                    }>
+                  }>
+                  s3 s6 XCHG
+                  s2 s3 XCHG
+                }>
+                s4 s6 XCHG
+                s2 s3 XCHG
+              }>
+            }>
+            s4 s6 XCHG
+          }>
+        }>
+        s1 s6 XCHG
+      }>
+    }>
+    s9 s7 XCHG2
+    forward_excesses CALLDICT
+    s3 s7 XCHG
+    s6 s1 s4 XCHG3
+    s3 s5 s3 XCHG3
+    save_data INLINECALLDICT
+  }>
+  get_cocoon_data PROC:<{
+    load_data INLINECALLDICT
+    s5 POP
+    s5 POP
+    2DROP
+    SWAP
+    unpack_cocoon_params CALLDICT
+    3 BLKDROP
+    6 2 BLKDROP2
+    9 ROLL
+  }>
+  proxy_hash_is_valid PROC:<{
+    load_data INLINECALLDICT
+    s6 s7 XCHG
+    7 BLKDROP
+    8 PUSHPOW2
+    DICTUGET
+    NULLSWAPIFNOT
+    NIP
+  }>
+  worker_hash_is_valid PROC:<{
+    load_data INLINECALLDICT
+    s3 s7 XCHG
+    7 BLKDROP
+    8 PUSHPOW2
+    DICTUGET
+    NULLSWAPIFNOT
+    NIP
+  }>
+  model_hash_is_valid PROC:<{
+    load_data INLINECALLDICT
+    s2 s7 XCHG
+    7 BLKDROP
+    8 PUSHPOW2
+    DICTUGET
+    NULLSWAPIFNOT
+    NIP
+  }>
+  last_proxy_seqno PROC:<{
+    load_data INLINECALLDICT
+    s4 s7 XCHG
+    7 BLKDROP
+  }>
+  get_cur_params PROC:<{
+    load_data INLINECALLDICT
+    7 1 BLKDROP2
+    unpack_cocoon_params CALLDICT
+    s8 POP
+    s9 POP
+    0 PUSHINT
+    s0 s0 s1 PUSH3
+    ISNULL
+    NOT
+    IF:<{
+      s2 POP
+      s0 s2 XCHG
+      CTOS
+      HASHSU
+      ROT
+    }>ELSE<{
+      s3 POP
+    }>
+    s10 PUSH
+    ISNULL
+    NOT
+    IF:<{
+      DROP
+      s0 s9 XCHG
+      CTOS
+      HASHSU
+      s0 s9 XCHG
+    }>ELSE<{
+      s10 POP
+    }>
+    s7 PUSH
+    ISNULL
+    NOT
+    IF:<{
+      NIP
+      s0 s6 XCHG
+      CTOS
+      HASHSU
+    }>ELSE<{
+      s7 POP
+    }>
+    s7 s8 XCHG
+    s5 s7 XCHG
+    s4 s6 XCHG
+    s3 s5 XCHG
+    s4 s3 s0 XCHG3
+  }>
+}END>c
